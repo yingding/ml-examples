@@ -24,3 +24,17 @@ libraryDependencies += "org.jongo" % "jongo" % "1.3.1"
 libraryDependencies += "uk.co.panaxiom" %% "play-jongo" % "2.1.0-jongo1.3"
 
 libraryDependencies += "commons-collections" % "commons-collections" % "3.2.1"
+
+/* spark mllib */
+dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-core" % "2.9.10"
+dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-databind" % "2.9.10"
+dependencyOverrides += "com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.9.10"
+libraryDependencies ++= Seq(
+  "org.apache.spark" %% "spark-core" % "2.4.4",
+  "org.apache.spark" %% "spark-sql" % "2.4.4",
+  "org.apache.spark" %% "spark-mllib" % "2.4.4" % "runtime",
+  "org.apache.spark" %% "spark-streaming" % "2.4.4" % "provided"
+)
+/* end of mllib */
+
+// https://discuss.lightbend.com/t/play-framework-apache-spark/2908/4
