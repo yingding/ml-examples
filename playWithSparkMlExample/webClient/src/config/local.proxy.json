@@ -1,0 +1,12 @@
+{
+  "/api": {
+    "target": "http://localhost:9000",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": "/api"
+    },
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "comment": "all localhost:8080/api calls will be rewritten to localhost:9000/api , for more details see https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/proxy.md"
+  }
+}

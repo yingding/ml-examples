@@ -1,0 +1,11 @@
+<div class="topMargined leftMargined">
+  <div>
+    <div>Your Dashboard: </div>
+    <mat-form-field class="mid-form-width">
+      <textarea matInput name="title" [(ngModel)]="title.value" placeholder="type things here to change the value of initial property displayed below"></textarea>
+    </mat-form-field>
+    <div class="preformated mid-form-width"><pre>this.title = {{ title | json }}</pre></div>
+    <!-- show title as an json string with a pipe -->
+    <!-- title | json-->
+  </div>
+</div>

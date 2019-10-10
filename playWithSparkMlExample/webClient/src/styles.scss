@@ -1,0 +1,113 @@
+/* You can add global styles to this file, and also import other style files */
+
+body{
+  // clear out all margin and padding in angular components
+  margin: 0px;
+  padding: 0px;
+}
+
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.floatl{
+  float:left;
+}
+
+.floatr{
+  float:right;
+}
+
+/* -START- Header */
+
+nav.header {
+  overflow: hidden;
+  background-color: #dadce8;
+  // position: fixed; // position fix makes toolbar over the next component, allows overlapping
+  width: 100%;
+  z-index: 1;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,.25);
+}
+
+.logout {
+  display: block;
+  color:#346fde;//#00bcd4;
+  /* padding: 14px 16px; to big for S5 */
+  padding: 14px 14px;
+  text-decoration: none;
+  // border: 1px solid black;
+  min-width: 60px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+nav.header a {
+  display: block;
+  color:#346fde;//#00bcd4;
+  /* padding: 14px 16px; to big for S5 */
+  padding: 14px 14px;
+  text-decoration: none;
+  // border: 1px solid black;
+  min-width: 60px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+nav.header a:hover:not(.active) {
+  background-color: #ffffff;
+}
+
+nav.header a.active {
+  color: #ffffff;
+  background-color: #346fde;
+}
+
+
+/*originally was 680px, not work with Nexus 5x and Pixel 2 */
+/*changed to 880px*/
+@media only screen and (max-width: 680px) {
+  nav.header a {
+    width: 33.3%;
+  }
+
+  /*#wrapper, #header figure {
+    top: 6.25em !important;
+  }*/
+}
+/* -END- Header */
+
+/* css for the sub component in the tree */
+.centered {
+  text-align: center;
+}
+
+.topMargined {
+  margin-top: 50px;
+}
+
+.leftMargined {
+  margin-left: 50px;
+}
+
+
+.input-full-width {
+  width: 100%;
+}
+
+.mid-form-width {
+  min-width: 150px;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* CSS in these files are inlined into the JavaScript.
+ * By default Angular 2+ limits them so they only apply
+ * to the component they belong to.
+ * Look at `encapsulation` if you want to change that.
+ */
+.preformated {
+  border: 1px solid #666;
+  background-color: #eee;
+  border-radius: 4px;
+  padding: 1em;
+}

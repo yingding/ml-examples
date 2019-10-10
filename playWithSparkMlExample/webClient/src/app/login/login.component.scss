@@ -1,0 +1,40 @@
+.login-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.topMargined {
+  margin-top: 50px;
+}
+
+.login-full-width {
+  width: 100%;
+}
+
+.centered {
+  text-align: center;
+}
+
+.inlineblocked {
+  display: inline-block;
+}
+
+/* Center a Div Element
+1. Enclose the div that you want to center with a parent element (commonly known as a wrapper or container div)
+2. Set “text-align: center” to parent element.
+3. Then set the inside div to “display: inline-block”
+*/
+
+
+/* in the css file or in a style block */
+.angular-with-newlines {
+  // reference: https://stackoverflow.com/questions/19684708/preserve-line-breaks-in-angularjs
+  white-space: pre-wrap;
+}
+
+.warning {
+  margin-top: 50px; // get some space to the previous sibling html element in the inline-block
+  color: darkred;
+}
+

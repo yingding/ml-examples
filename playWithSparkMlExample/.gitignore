@@ -1,0 +1,16 @@
+# Created by .ignore support plugin (hsz.mobi)
+/.idea
+week3.iml
+
+# OS or Editor folders
+.DS_Store
+.cache
+.project
+.settings
+.tmproj
+
+.vs
+nbproject
+Thumbs.db
+
+

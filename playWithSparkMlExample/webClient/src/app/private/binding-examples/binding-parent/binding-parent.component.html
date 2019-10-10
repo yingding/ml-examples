@@ -1,0 +1,18 @@
+<div>
+  <h2>Parent to Child Component Binding Example</h2>
+
+  <p>
+    <button (click)="newNumber()">increase a number</button>
+  </p>
+
+  <!-- use Ng two way binding, while the value of input element changes via keyboard tipping,
+       the binded property textToChange also changes rapidly in BindingParentComponent
+       -->
+  <input type="text" [(ngModel)]="textToChange">
+  <button (click)="toClearLog()">Clear Log</button>
+
+  <!-- use the selector defined in BindingChildComponent -->
+  <app-binding-child [childText]="textToChange" [childNumber]="numberToChange" [clearLog]="clearLog"></app-binding-child>
+  <!-- the textToChange variable is binded to the property childText in the ChildBindingComponent -->
+
+</div>

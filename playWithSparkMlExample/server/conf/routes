@@ -1,0 +1,43 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+
+
+# An example controller showing a sample home page
+GET      /                   controllers.Assets.at(path="/public", file="index.html")
+
+# Map static resources from the /public folder to the /assets URL path
+# Map assets
+# Reverse routing and static state https://www.playframework.com/documentation/2.7.x/AssetsOverview
+GET     /assets/*file        controllers.Assets.versioned(path="/public/assets", file: Asset)
+
+# this is take also the redirect away
+# GET /*file controllers.Assets.versioned(path="/public", file: Asset)
+
+# Map js and css files
+# Examples of regular expression https://stackoverflow.com/questions/8462619/regular-expression-first-character-must-be-a-z
+GET     /$file<([a-zA-Z0-9\-]*[.])(js|html|ico|js.map)>               controllers.Assets.versioned(path="/public", file: Asset)
+# https://stackoverflow.com/questions/24636814/regular-expression-only-match-if-string-ends-with-target
+
+# get any string ends with .js .html .ico .js.map
+# https://stackoverflow.com/questions/24636814/regular-expression-only-match-if-string-ends-with-target
+# https://javascript.info/regexp-anchors
+GET     /$file<.*\.(js|html|ico|js\.map)$>               controllers.Assets.versioned(path="/public", file: Asset)
+
+
+# Get and post rest api for moods, it is important the url are the same as in the url in client, the last / maybe needed
+# +nocsrf
+POST    /api/moods/post/         controllers.MoodController.saveMoodInput(request: Request)
+
+# https://stackoverflow.com/questions/48904971/web-service-on-play-framework-not-accepting-post-message
+# +nocsrf
+POST    /api/moods/get/          controllers.MoodController.getAllMoods(request: Request)
+
+# redirect every thing unknown to / index, since the Application.index only redirect to /
+GET /*data  controllers.Application.index(data)
+
+# GET /$url<.*>  controllers.Assets.at(path="/public", file="index.html")
+# https://www.playframework.com/documentation/2.7.x/JavaRouting
+# https://stackoverflow.com/questions/4283256/how-to-redirect-in-play-framework/17705128#17705128
+# https://en.wikipedia.org/wiki/Regular_expression

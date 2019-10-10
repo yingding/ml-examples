@@ -1,0 +1,7 @@
+<h3>New Text is {{childText}}.</h3>
+<h3>New Number is {{childNumber}}</h3>
+<h4>Change log:</h4>
+<ul>
+  <!-- use the ng structure directive to build a list of change-->
+  <li *ngFor="let changeItem of changeLogList">{{changeItem}}</li>
+</ul>

@@ -1,0 +1,18 @@
+<div class="centered topMargined">
+  <div class="inlineblocked">
+    <form class="login login-form">
+
+      <mat-form-field class="login-full-width">
+        <input matInput type="text" name="username" placeholder="Login" [(ngModel)]="username" required>
+      </mat-form-field>
+
+      <mat-form-field class="login-full-width">
+        <input matInput type="password" name="password" placeholder="Password" [(ngModel)]="password" required>
+      </mat-form-field>
+    </form>
+    <button class="floatl" mat-raised-button color="primary" (click)="login()">log in</button>
+
+    <div class="foatl angular-with-newlines warning">{{errorMessage}}</div>
+  </div>
+</div>
+
