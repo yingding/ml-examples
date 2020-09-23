@@ -5,11 +5,13 @@
 * (optional) import module server from intellij menu -> modules -> + ->
 import modules -> from external source code -> sbt -> choose server folder -> after that the server and the server-build will be added.
 
-## 1.1 Testing the Play framework version
+## 1.1 Start Sbt Console
+* `cd server` navigates to the server folder
+* type `sbt` in your terminal to start the sbt binary
+
+## 1.2 Testing the Play framework version
 * type `sbtVersion` in the play console to show the sbt version
 * type `version` in the play console to show your application version
-* type `` in the play console to show the  
-
 
 # 2. Setting up connections to mongodb
 The following packages are used to establish a connection to mongodb in play framework. The libraryDependencies are declared in build.sbt file

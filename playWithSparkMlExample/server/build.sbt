@@ -30,10 +30,10 @@ dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-core" % "2.9.10"
 dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-databind" % "2.9.10"
 dependencyOverrides += "com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.9.10"
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "2.4.4",
-  "org.apache.spark" %% "spark-sql" % "2.4.4",
-  "org.apache.spark" %% "spark-mllib" % "2.4.4" % "runtime",
-  "org.apache.spark" %% "spark-streaming" % "2.4.4" % "provided"
+  "org.apache.spark" %% "spark-core" % "2.4.7",
+  "org.apache.spark" %% "spark-sql" % "2.4.7",
+  "org.apache.spark" %% "spark-mllib" % "2.4.7" % "runtime",
+  "org.apache.spark" %% "spark-streaming" % "2.4.7" % "provided"
 )
 /* end of mllib */
 
