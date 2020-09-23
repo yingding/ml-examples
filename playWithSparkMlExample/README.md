@@ -46,11 +46,11 @@ Note:
 * Click on the "import project" on the yellow popup message
 * After indexing the play java project shall be imported properly
 
-# 3. Usefull commands
+# 3. Useful commands
 * get the sbt version with `sbt sbtVersion`
 
 # Opening project and adding modules
-1. Open the project in week3 level, choose java 1.8 sdk for week3
+1. Open the project in week3 level, choose OpenJDK/AdoptOpenJDK 11 sdk for week3
 2. import existing module, choose the server module and import as sbt project, this can only be done from the project settings -> + -> Import Module -> sbt (you shall installed the sbt plugin before)
 3. add the angular cli module
-4. if you got some error sbt sdk shall be set, go to project week3 settings and choose jdk 1.8
+4. if you got some error sbt sdk shall be set, go to project week3 settings and choose OpenJDK/AdoptOpenJDK 11
