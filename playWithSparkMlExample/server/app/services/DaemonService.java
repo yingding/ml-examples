@@ -24,7 +24,6 @@ public class DaemonService {
         daemonQueue.add(new ExampleDaemon(actorSystem, lifecycle, appConf.getConfig()));
 
         // Todo: Extend Queue for further daemon
-
         lifecycle.addStopHook(() -> {
             shutdown();
             return CompletableFuture.completedFuture(null);
