@@ -1,16 +1,18 @@
 # Created by .ignore support plugin (hsz.mobi)
 /.idea
-week3.iml
+*.iml
 
 # OS or Editor folders
 .DS_Store
 .cache
-.project/
+.project
 .settings
 .tmproj
 
 # target might be generated
 **/target/
+# not the current project folder, but only the project folder in subfolder server
+/project
 
 .vs
 nbproject
