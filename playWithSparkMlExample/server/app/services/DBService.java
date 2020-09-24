@@ -2,26 +2,25 @@ package services;
 
 import Models.MoodEntry;
 import Models.MoodObject;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mongodb.DBObject;
 import com.mongodb.LazyDBObject;
+import com.mongodb.MongoOptions;
 import org.jongo.MongoCursor;
 import org.jongo.ResultHandler;
 // import play.api.Play;
-import play.libs.Json;
+import play.Logger;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
- * @Author Yingding Wang on 07.05.17.
+ * @Author Yingding Wang
+ * @lastModified 24.09.2020
  */
-
 @Singleton
 public class DBService {
     // Inject PlayJongo Class
-
     @Inject
     private PlayJongo jongo; // = Play.current().injector().instanceOf(PlayJongo.class);
 
@@ -33,8 +32,14 @@ public class DBService {
     }
     // fetch all moods
     public MongoCursor<MoodObject> findAllMoods() {
+        logMongoClientInfo();
         // sort _id (timestamp) descending with -1
         return jongo.getCollection(MOODS).find().sort("{_id: -1}").map(moodResultHandler());
+    }
+
+    private void logMongoClientInfo() {
+        MongoOptions mongoOptions = jongo.mongo().getMongoOptions();
+        Logger.info(String.format("ConnectionsPerHost: %d, ConnectionTimeOutMS: %d", mongoOptions.connectionsPerHost, mongoOptions.getConnectTimeout()));
     }
 
     public long countAllMoods() {

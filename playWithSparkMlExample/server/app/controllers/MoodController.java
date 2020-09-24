@@ -23,9 +23,7 @@ import tasks.MoodTasks;
 import javax.inject.Singleton;
 import javax.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 // import org.slf4j.Logger;
