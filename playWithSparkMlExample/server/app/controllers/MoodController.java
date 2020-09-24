@@ -8,6 +8,7 @@ import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.Config;
+import org.jongo.MongoCursor;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -21,6 +22,7 @@ import tasks.MoodTasks;
 import javax.inject.Singleton;
 import javax.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
@@ -99,6 +101,9 @@ public class MoodController extends Controller {
 
     /**
      * http://doc.akka.io/docs/akka/current/java/scheduler.html
+     *
+     * Handline JSON with Play.lib.Json
+     * https://www.playframework.com/documentation/2.8.x/JavaJsonActions#:~:text=In%20Java%2C%20Play%20uses%20the,Json%20API.
      * @return http result
      */
     public Result getAllMoods(Http.Request request) {
@@ -111,9 +116,19 @@ public class MoodController extends Controller {
         String requestTcpSeed = json.findPath("seed").asText();
         if (Authentication.isAuthorizedSeed(appConf, requestTcpSeed)) {
             // fetch data from db
-            Iterator<MoodObject> moods = this.dbService.findAllMoods();
+            MongoCursor<MoodObject> moodsCursor = this.dbService.findAllMoods();
+            if (moodsCursor != null) {
+                Logger.info("get mood count: " + moodsCursor.count());
+            }
+
+            ArrayList<MoodObject> moodsList = new ArrayList<>(moodsCursor.count());
+            while(moodsCursor.hasNext()) {
+                moodsList.add(moodsCursor.next());
+            }
+
             ObjectNode result = Json.newObject();
-            result.set("moods", Json.toJson(moods));
+            // some how it is not possible to give a iterator or DB cursor to Json.toJson, which will result in a infinite recursion and only works with ArrayList now.
+            result.set("moods", Json.toJson(moodsList));
             return ok(result);
         } else {
             return unauthorized("Unauthorized seed");

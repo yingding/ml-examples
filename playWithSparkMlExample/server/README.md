@@ -8,6 +8,9 @@ import modules -> from external source code -> sbt -> choose server folder -> af
 ## 1.1 Start Sbt Console
 * `cd server` navigates to the server folder
 * type `sbt` in your terminal to start the sbt binary
+* type `update` in sbt console to update the project libs
+* type `clean` in sbt console to clean the previous built
+* type `compile` in sbt console to compile the project
 
 ## 1.2 Testing the Play framework version
 * type `sbtVersion` in the play console to show the sbt version
