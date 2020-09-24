@@ -5,9 +5,12 @@ week3.iml
 # OS or Editor folders
 .DS_Store
 .cache
-.project
+.project/
 .settings
 .tmproj
+
+# target might be generated
+**/target/
 
 .vs
 nbproject
