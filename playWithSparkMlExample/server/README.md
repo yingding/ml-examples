@@ -69,6 +69,15 @@ set SBT_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9
 
 <!-- windows reference from https://stackoverflow.com/questions/23332378/how-can-i-enable-remote-debugging-for-sbt-in-windows -->
 
+# 8. set run config in IntelliJ Utimate
+* add Play2 app config, in option `env. variables` to examine the system variable.
+
+## 8.1 Import Server Module as Play2 module
+* Import the scala module
+* Choose path `.../server` as scala
+* set custom sbt `<project-root>/../server/sbt-dist/bin/sbt-launch.jar`
+* see `~/sbt/1.0/plugins` exists, by any issue remove `rm -r ~/sbt/1.0/plugins/target`
+
 # Additional Readings about Play Java Seed (Starter)
 
 This is a starter application that shows how Play works.  Please see the documentation at https://www.playframework.com/documentation/latest/Home for more details.
