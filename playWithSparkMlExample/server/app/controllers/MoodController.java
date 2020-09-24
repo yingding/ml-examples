@@ -6,6 +6,7 @@ import Utilities.Authentication;
 import Utilities.TimeUtil;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.Config;
 import org.jongo.MongoCursor;
@@ -115,26 +116,30 @@ public class MoodController extends Controller {
         }
         String requestTcpSeed = json.findPath("seed").asText();
         if (Authentication.isAuthorizedSeed(appConf, requestTcpSeed)) {
-            // fetch data from db
-            MongoCursor<MoodObject> moodsCursor = this.dbService.findAllMoods();
-            if (moodsCursor != null) {
-                Logger.info("get mood count: " + moodsCursor.count());
-            }
-
-            ArrayList<MoodObject> moodsList = new ArrayList<>(moodsCursor.count());
-            while(moodsCursor.hasNext()) {
-                moodsList.add(moodsCursor.next());
-            }
+            // fetch data from db and get the db cursor
+            MongoCursor<MoodObject> cursor = this.dbService.findAllMoods();
 
             ObjectNode result = Json.newObject();
             // some how it is not possible to give a iterator or DB cursor to Json.toJson, which will result in a infinite recursion and only works with ArrayList now.
-            result.set("moods", Json.toJson(moodsList));
+            result.set("moods", cursorMapper(cursor));
             return ok(result);
         } else {
             return unauthorized("Unauthorized seed");
         }
     }
 
+    /**
+     * this method wrap the cursor to ArrayNode
+     * @param cursor MongoCusor
+     * @return ArrayNode
+     */
+    private ArrayNode cursorMapper(MongoCursor cursor) {
+        ArrayNode arrayNode = Json.newArray();
+        while(cursor.hasNext()) {
+            arrayNode.add(Json.toJson(cursor.next()));
+        }
+        return arrayNode;
+    }
 
     private void runAsyncTask() {
         // The task shall be run in 1 seconds after the time this task is scheduled

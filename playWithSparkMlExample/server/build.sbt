@@ -2,22 +2,27 @@ name := """server"""
 organization := "com.example"
 version := "1.0.0"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+// Warning the name and the lazy val `server` shall be the same otherwise play2 app config can not launch the play app
+// module id in guice
+lazy val `server` = (project in file(".")).enablePlugins(PlayJava)
 
 scalaVersion := "2.12.12" // "2.12.8"
 // scalaVersion := "2.13.2"
 // play jongo, spark doesn't work with 2.13.x jet, they are still compiled with 2.12.x
 
-libraryDependencies += guice
 libraryDependencies += "com.typesafe.play" %% "play" % "2.8.2" // "2.7.3"
 // the Json.toJson uses play-json
-libraryDependencies += "com.typesafe.play" %% "play-json" % "2.7.4"// "2.9.1" // "2.7.4"
+libraryDependencies += "com.typesafe.play" %% "play-json" % "2.9.1" // "2.7.4"
 // libraryDependencies += "com.typesafe.play" %% "play-iteratees" % "2.6.1"
 // libraryDependencies += javaJdbc
 // libraryDependencies += cacheApi
 
 // allow calling http service from play frame work
-libraryDependencies += javaWs
+libraryDependencies ++= Seq(
+  guice,
+  javaWs
+  // ,ehcache
+)
 
 // https://mvnrepository.com/artifact/org.jongo/jongo
 // libraryDependencies += "org.jongo" % "jongo" % "1.4.1"
