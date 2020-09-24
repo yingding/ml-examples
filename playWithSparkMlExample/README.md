@@ -54,3 +54,11 @@ Note:
 2. import existing module, choose the server module and import as sbt project, this can only be done from the project settings -> + -> Import Module -> sbt (you shall installed the sbt plugin before)
 3. add the angular cli module
 4. if you got some error sbt sdk shall be set, go to project week3 settings and choose OpenJDK/AdoptOpenJDK 11
+
+# 4. Open Project from different folder
+
+You can either open the sbt/play2 project from `server` subfolder with IntelliJ IDEA Ultimate or from the project folder `playWithSparkMLexample` root folder.
+
+Depends on entry folder, an additional "project/build.properties" file might be generated besides the `server/project/build.properies` file uploaded in this repository seed. You may need to add just the sbt.version e.g. `sbt.version=1.3.13` to assure the right sbt is used to start play2 run config for the current IntelliJ IDEA project.
+
+
