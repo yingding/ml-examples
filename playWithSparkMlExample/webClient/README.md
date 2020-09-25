@@ -177,3 +177,16 @@ src
 Following the guide from 
 * Angular Update Guide: https://update.angular.io/
 
+## Coding Convension for Typescript
+* this repo use **'single'** quote mark to avoid escape, in json you will probably use **'double'** quote mark
+* change the intellij setting to get IDE auto import with **'single'** quote by File -> Settings -> Editor -> Code Syle -> Typescript` and choose use single quotes always, more see reference: https://stackoverflow.com/questions/53535910/intellij-auto-replace-double-quoted-strings
+* (optional) you can also change the `tslint.json` from `webClient` folder to change the tslint settings for your angular project
+
+## Debugging with local-proxy
+1. start the backend server
+2. start the `npm run local-proxy` so that all port 8080 http request will be redirected to port 9000 the local backend server
+3. set break point in the code
+4. start the debug config (**debug button** not the run button) of JavaScript debug conf (open in chrome) with the url of step 2 (8080 port)
+5. navigate in the open browser window to get the break point triggered.
+
+

@@ -92,6 +92,9 @@ public class MoodController extends Controller {
         if (succeed) {
             // run a async task
             runAsyncTask();
+            // https://www.playframework.com/documentation/2.8.x/JavaResponse
+            // Content-Type text/plain, Angular httClient with : responseType?: 'json' will have issue to parse the
+            // response
             return ok("moods saved successfully");
         } else {
             return badRequest("moods has inapproperate structure, can not be all saved");
