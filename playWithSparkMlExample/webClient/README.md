@@ -170,3 +170,10 @@ src
 # References:
 * [Angular Providers](https://angular.io/guide/providers)
 
+# Update Angular Version
+
+## Using ng udpate
+
+Following the guide from 
+* Angular Update Guide: https://update.angular.io/
+
