@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Observable} from 'rxjs';
-import { map } from 'rxjs/operators';
-import {MoodModel} from '../models/mood-model';
+import { Injectable } from "@angular/core";
+import { Http, Response, Headers, RequestOptions} from "@angular/http";
+import {Observable} from "rxjs";
+import { map } from "rxjs/operators";
+import {MoodModel} from "../models/mood-model";
 
 // @Injectable({
 //    providedIn: InputsModule
