@@ -3,7 +3,7 @@ import {MoodModel} from '../models/mood-model';
 import * as moment from 'moment';
 import {MoodsService} from '../services/moods.service';
 import {SharedRefreshService} from '../services/shared-refresh.service';
-import {HttpResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-input-mood',
@@ -58,10 +58,10 @@ export class InputMoodComponent implements OnInit {
           // console.log('subscribe next');
           this.handleResponse(response);
         },
-        error => {
+        errorResponse => {
           // if the HttpErrorResponse is called, response.ok is false even the status is 2xx
           // console.log('subscribe error');
-          this.handleResponse(error);
+          this.handleErrorResponse(errorResponse);
         }
       );
       // put refresh in side success call back
@@ -73,25 +73,32 @@ export class InputMoodComponent implements OnInit {
       this.responseMessageColor = 'yellow';
     }
   }
-
+  /* error response has no body */
+  handleErrorResponse(response: HttpErrorResponse) {
+    this.responseMessage = response.statusText;
+    this.responseMessageColor = 'red';
+    if (response.error !== undefined) {
+        this.responseMessage += `: ${response.error}`;
+    }
+  }
   handleResponse(response: HttpResponse<string>) {
+
+    /* set the message to give user a feedback of upload */
+    this.responseMessage = response.statusText;
+    if (response.body !== undefined) {
+      // use typescript template string
+      this.responseMessage += `: ${response.body}`;
+    }
     // response.ok is false, even when response.status is 200, since the response content type is set as text/pain from server
     // but the http default options of httpClient.post for responseType is json
     // if (response.status === 200) {
-    if (response.ok) {
+    /* change the color of response message */
+    if (response.ok) { // successful and no error in httpclient
       this.responseMessageColor = 'lawngreen';
       this.moods = []; // clear the moods
-      this.responseMessage = response.statusText;
-      if (response.body !== undefined) {
-        // use typescript template string
-        this.responseMessage += `: ${response.body}`;
-      }
-      // refresh is true
+      // triggers the refresh event
       this.refresh = !this.refresh; // switch
       this.sharedRefreshService.publishData(this.refresh);
-    } else {
-      this.responseMessage = response.statusText;
-      this.responseMessageColor = 'red';
     }
   }
 

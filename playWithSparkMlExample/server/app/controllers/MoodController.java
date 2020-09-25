@@ -8,6 +8,7 @@ import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mongodb.MongoTimeoutException;
 import com.typesafe.config.Config;
 import org.jongo.MongoCursor;
 import play.Logger;
@@ -22,6 +23,7 @@ import tasks.MoodTasks;
 
 import javax.inject.Singleton;
 import javax.inject.Inject;
+import javax.naming.ServiceUnavailableException;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -77,7 +79,12 @@ public class MoodController extends Controller {
                         moodNode.findPath("timestamp").asLong(),
                         moodNode.findPath("mood").asText()
                 );
-                canBeSaved = this.dbService.saveMood(mood);
+                try {
+                    canBeSaved = this.dbService.saveMood(mood);
+                } catch (ServiceUnavailableException serviceUnavailableException) {
+                    Logger.error(DBService.INFO_TEXT_DB_NOT_AVAILABLE);
+                    return internalServerError(DBService.INFO_TEXT_DB_NOT_AVAILABLE);
+                }
                 if (canBeSaved) {
                     Logger.info("Inserted " + mood.toString());
                 } else {
@@ -97,7 +104,7 @@ public class MoodController extends Controller {
             // response
             return ok("moods saved successfully");
         } else {
-            return badRequest("moods has inapproperate structure, can not be all saved");
+            return badRequest("moods can not be all saved, inapproperate structure or db not available!");
         }
     }
 
@@ -118,12 +125,16 @@ public class MoodController extends Controller {
         String requestTcpSeed = json.findPath("seed").asText();
         if (Authentication.isAuthorizedSeed(appConf, requestTcpSeed)) {
             // fetch data from db and get the db cursor
-            MongoCursor<MoodObject> cursor = this.dbService.findAllMoods();
-
-            ObjectNode result = Json.newObject();
+            try {
+                MongoCursor<MoodObject> cursor = this.dbService.findAllMoods();
+                ObjectNode result = Json.newObject();
             // some how it is not possible to give a iterator or DB cursor to Json.toJson, which will result in a infinite recursion and only works with ArrayList now.
-            result.set("moods", cursorMapper(cursor));
-            return ok(result);
+
+                result.set("moods", cursorMapper(cursor));
+                return ok(result);
+            } catch (ServiceUnavailableException serviceUnavailableException) {
+                return internalServerError(serviceUnavailableException.getMessage());
+            }
         } else {
             return unauthorized("Unauthorized seed");
         }
@@ -134,10 +145,14 @@ public class MoodController extends Controller {
      * @param cursor MongoCusor
      * @return ArrayNode
      */
-    private ArrayNode cursorMapper(MongoCursor cursor) {
+    private ArrayNode cursorMapper(MongoCursor cursor) throws ServiceUnavailableException {
         ArrayNode arrayNode = Json.newArray();
-        while(cursor.hasNext()) {
-            arrayNode.add(Json.toJson(cursor.next()));
+        try {
+            while (cursor.hasNext()) {
+                arrayNode.add(Json.toJson(cursor.next()));
+            }
+        } catch (MongoTimeoutException mongoTimeoutException) {
+            throw new ServiceUnavailableException("DB not available!");
         }
         return arrayNode;
     }

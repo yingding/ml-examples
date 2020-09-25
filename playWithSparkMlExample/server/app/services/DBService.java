@@ -5,6 +5,7 @@ import Models.MoodObject;
 import com.mongodb.DBObject;
 import com.mongodb.LazyDBObject;
 import com.mongodb.MongoOptions;
+import com.mongodb.MongoTimeoutException;
 import org.jongo.MongoCursor;
 import org.jongo.ResultHandler;
 // import play.api.Play;
@@ -13,6 +14,7 @@ import uk.co.panaxiom.playjongo.PlayJongo;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.naming.ServiceUnavailableException;
 
 /**
  * @Author Yingding Wang
@@ -25,10 +27,15 @@ public class DBService {
     private PlayJongo jongo; // = Play.current().injector().instanceOf(PlayJongo.class);
 
     private static String MOODS = "moods"; // collection name
+    public static final String INFO_TEXT_DB_NOT_AVAILABLE = "DB not available!";
     // save a single mood entry
 
-    public boolean saveMood(MoodEntry mood) {
-        return jongo.getCollection(MOODS).save(mood).wasAcknowledged();
+    public boolean saveMood(MoodEntry mood) throws ServiceUnavailableException {
+        try {
+            return jongo.getCollection(MOODS).save(mood).wasAcknowledged();
+        } catch (MongoTimeoutException timeoutException) {
+            throw new ServiceUnavailableException(INFO_TEXT_DB_NOT_AVAILABLE);
+        }
     }
     // fetch all moods
     public MongoCursor<MoodObject> findAllMoods() {
