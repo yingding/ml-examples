@@ -28,12 +28,12 @@ export class BindingChildComponent implements OnInit, OnChanges {
 
     // local log variables, created by every onChange
     let log: string[] = [];
-    let needClear: boolean = false;
+    let needClear = false;
     let changedProp: SimpleChange;
 
     // get all the 3 property from the changes array
     for (let propertyName in changes) {
-      if (propertyName == "clearLog") {
+      if (propertyName === 'clearLog') {
         // set the clear flag
         needClear = true;
 
