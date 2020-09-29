@@ -42,7 +42,7 @@ Note:
 # 2. Issue while import the sbt project in IntelliJ IDEA
 * right click on week3 (root of the project)
 * Click on "File" (in Menu) -> Project Structure... -> remove the root and root-build module in Module section with "-"
-* open the build.sbt in server folder in IntelliJ IDEA utimate
+* open the build.sbt in server folder in IntelliJ IDEA ultimate
 * Click on the "import project" on the yellow popup message
 * After indexing the play java project shall be imported properly
 
