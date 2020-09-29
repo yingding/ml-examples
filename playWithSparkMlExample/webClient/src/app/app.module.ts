@@ -41,7 +41,9 @@ import { InputsModule } from './inputs/inputs.module';
     // the subModule with Module routes must be placed above the AppRoutingModule
   ],
   // providers: [{provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],
-  entryComponents: [PopupDialogComponent],
+
+  // deprecated Material Dialog need entryComponents, ivy in Angular9 doesn't need entryComponents any more.
+  // entryComponents: [PopupDialogComponent],
   /**
    * adding dynamically created components to entryComponents:
    * https://stackoverflow.com/questions/41519481/angular2-material-dialog-has-issues-did-you-add-it-to-ngmodule-entrycomponent
