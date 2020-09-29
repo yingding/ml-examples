@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {PopupDialogComponent} from '../shared/dialog/popup-dialog/popup-dialog.component';
 import {Router} from '@angular/router';
 
@@ -9,19 +9,19 @@ import {Router} from '@angular/router';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
-  title : string = "WelcomeComponent";
+  title = 'WelcomeComponent';
 
-  success_str : string = "Your setup works fine!";
+  successStr = 'Your setup works fine!';
 
   ngOnInit() {
   }
 
-  constructor(private router: Router, public dialog: MatDialog){}
+  constructor(private router: Router, public dialog: MatDialog) {}
 
   openDialog(): void {
     const dialogRef = this.dialog.open(PopupDialogComponent, {
       width : '250px',
-      data : {text: this.success_str}
+      data : {text: this.successStr}
     });
 
     dialogRef.afterClosed().subscribe(result => {

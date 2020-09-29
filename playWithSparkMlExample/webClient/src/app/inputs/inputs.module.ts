@@ -9,7 +9,9 @@ import { InputMoodComponent } from './input-mood/input-mood.component';
 import { FormsModule} from '@angular/forms'; // FormsModule is needed for the two binding for the Form in AngularMaterial
 // material design
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 // import { MoodModel } from './models/mood-model'; // why shouldn't moodModel be declared in the Module?
 import {HttpClientModule} from '@angular/common/http';

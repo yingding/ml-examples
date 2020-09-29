@@ -10,7 +10,9 @@ import { UserHomeComponent } from './user-home/user-home.component';
 import { FormsModule} from '@angular/forms'; // FormsModule is needed for the two binding for the Form in AngularMaterial
 // material design
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { BindingExamplesComponent } from './binding-examples/binding-examples.component';
 import { BindingParentComponent } from './binding-examples/binding-parent/binding-parent.component';
