@@ -12,11 +12,11 @@ import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 })
 export class InputMoodComponent implements OnInit {
 
-  private moods: MoodModel[] = [];
-  private responseMessage: string = null;
+  moods: MoodModel[] = [];
+  responseMessage: string = null;
   private responseMessageColor: string = null;
   private refresh = false;
-  private mood = '';
+  mood = '';
 
   constructor(private moodService: MoodsService, private sharedRefreshService: SharedRefreshService) {
   }

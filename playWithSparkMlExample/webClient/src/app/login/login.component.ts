@@ -10,9 +10,9 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   // private variables used for two way binding.
-  private username  = ""; // infered string variable no string type declaration necessary
-  private password  = "";
-  private errorMessage = "";
+  username  = ''; // infered string variable no string type declaration necessary
+  password  = '';
+  errorMessage = '';
 
   constructor(private router: Router) { }
 
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    if (this.username !== "" && this.password !== "") {
+    if (this.username !== '' && this.password !== '') {
       // passing the user name as data parameter to the UserHomeComponent
       this.router.navigate(['/home', {name: this.username}]);
     } else {

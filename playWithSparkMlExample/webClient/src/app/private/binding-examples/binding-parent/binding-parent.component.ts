@@ -6,9 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./binding-parent.component.scss']
 })
 export class BindingParentComponent implements OnInit {
-  private textToChange : string = "init text";
-  private numberToChange : number = 1;
-  private clearLog : boolean = true;
+  textToChange = 'init text';
+  numberToChange = 1;
+  clearLog = true;
 
   constructor() { }
 

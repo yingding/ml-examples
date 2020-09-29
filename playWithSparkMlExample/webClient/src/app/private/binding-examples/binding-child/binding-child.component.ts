@@ -14,7 +14,7 @@ export class BindingChildComponent implements OnInit, OnChanges {
   @Input() clearLog: boolean;
 
   // String Array to stage the changes triggered from parent component
-  private changeLogList: string[] = [];
+  changeLogList: string[] = [];
 
   constructor() { }
 

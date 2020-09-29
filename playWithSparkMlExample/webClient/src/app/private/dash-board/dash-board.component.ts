@@ -6,8 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./dash-board.component.scss']
 })
 export class DashBoardComponent implements OnInit {
-
-  private title: any;
+  title: any;
 
   // Requirements: type the content of the value initial in the text box to change the value.
   // Unfortunately it doesn't work.

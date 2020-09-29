@@ -8,7 +8,7 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./user-home.component.scss']
 })
 export class UserHomeComponent implements OnInit {
-  private username;
+  username: string;
 
   constructor(
     private router: Router,

@@ -6,11 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./input-root.component.scss']
 })
 export class InputRootComponent implements OnInit {
-  private componentName: string;
-  private moduleName: string;
+  componentName: string;
+  moduleName: string;
 
   constructor() {
-    this.moduleName = "InputsModule";
+    this.moduleName = 'InputsModule';
     this.componentName = InputRootComponent.name;
   }
 

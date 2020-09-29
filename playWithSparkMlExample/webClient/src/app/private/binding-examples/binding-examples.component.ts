@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./binding-examples.component.scss']
 })
 export class BindingExamplesComponent implements OnInit {
-  private componentName;
+  componentName;
 
   constructor() {
     this.componentName = BindingExamplesComponent.name;

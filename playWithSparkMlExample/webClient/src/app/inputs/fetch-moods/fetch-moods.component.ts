@@ -12,7 +12,7 @@ import {catchError} from 'rxjs/operators';
   styleUrls: ['./fetch-moods.component.scss']
 })
 export class FetchMoodsComponent implements OnInit, OnChanges {
-  private moods: Observable<MoodModel[]>;
+  moods: Observable<MoodModel[]>;
   private refresh: boolean;
 
   constructor(private moodsService: MoodsService, private sharedRefreshService: SharedRefreshService) {
