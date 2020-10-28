@@ -8,8 +8,6 @@ import play.inject.ApplicationLifecycle;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Singleton

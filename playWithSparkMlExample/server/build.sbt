@@ -35,6 +35,7 @@ libraryDependencies ++= Seq(
   "org.jongo" % "jongo" % "1.4.1",
   "uk.co.panaxiom" %% "play-jongo" % "2.1.0-jongo1.3"
 )
+// got a guice error with jongo 1.4.1 not 1.4.0
 
 // for morphia with play 2.8.x
 //libraryDependencies ++= Seq(
@@ -64,8 +65,9 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-sql" % "3.0.1",
   "org.apache.spark" %% "spark-mllib" % "3.0.1" % "runtime",
   "org.apache.spark" %% "spark-streaming" % "3.0.1" % "provided",
-  "org.mongodb.spark" %% "mongo-spark-connector" % "3.0.0" // mongo spark connect 3 for spark 3.0.x to load mongo with spark with scala 2.12
+  "org.mongodb.spark" %% "mongo-spark-connector" % "3.0.0"
 )
+// mongo spark connect 3 for spark 3.0.x to load mongo with spark with scala 2.12
 
 // Issue with the Logging
 // https://www.playframework.com/documentation/2.8.x/SettingsLogger

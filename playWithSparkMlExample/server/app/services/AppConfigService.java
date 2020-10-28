@@ -31,7 +31,6 @@ public final class AppConfigService {
         // sysConf = configuration.getConfig(STR_APP_PREFIX);
 
         try {
-
             File appConfigFile = new File(sysConf.getString(STR_APP_PREFIX + "." +STR_APP_HOME) + File.separator + sysConf.getString(STR_APP_PREFIX + "." + STR_APP_CONF)).getCanonicalFile();
             if (!appConfigFile.exists())
             {
