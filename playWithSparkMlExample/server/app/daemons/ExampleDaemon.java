@@ -40,7 +40,7 @@ public class ExampleDaemon extends TemplateDaemon {
             /* getTime() return a utc timestamp
              * final long now = new Date().getTime();
              */
-            final String now = TimeUtil.getDateStr(new Date());
+            final String now = TimeUtil.getDateTimeStr(new Date());
             Logger.info("{} executed at {}", tag, now);
         } catch (Exception e) {
             Logger.error("Error in {} {}", tag, e.getMessage());

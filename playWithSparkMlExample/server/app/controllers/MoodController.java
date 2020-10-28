@@ -1,8 +1,12 @@
 package controllers;
 
+import akka.japi.Pair;
+import controllers.keys.ResultKeys;
 import objectmodels.MoodEntry;
 import objectmodels.MoodObject;
+import tasks.MLTasks;
 import utilities.Authentication;
+import utilities.ControllerHelper;
 import utilities.TimeUtil;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -49,53 +53,61 @@ public class MoodController extends Controller {
     // private final Logger logger = LoggerFactory.getLogger(MoodController.class.getSimpleName());
     // private final Logger logger = LoggerFactory.getLogger(Application.class);
 
-    private final Config appConf;
+    private final Config appConfig;
     private ActorSystem actorSystem;
     private DBService dbService;
     private MoodTasks moodTasks;
 
+    /**
+     * Inject Singleton through constructor
+     * @param appConfService
+     * @param actorSystem
+     * @param dbService
+     * @param moodTasks singleTone
+     */
     @Inject
     public MoodController(AppConfigService appConfService, ActorSystem actorSystem, DBService dbService, MoodTasks moodTasks) {
-        this.appConf = appConfService.getConfig();
+        this.appConfig = appConfService.getConfig();
         this.actorSystem = actorSystem;
         this.dbService = dbService;
         this.moodTasks = moodTasks;
-    }
+     }
 
     // @BodyParser.Of(BodyParser.Json.class)
     public Result saveMoodInput(Http.Request request) {
+        /* init local variables */
         boolean succeed = true;
         boolean canBeSaved;
-        // parse the body
-        JsonNode json = request.body().asJson();
-        if (json == null) {
-            return badRequest("Expecting Json data");
+
+        /* check condition */
+        Pair<Result, JsonNode> pair = ControllerHelper.checkRequestCondition(appConfig, request);
+        if (pair.first() != null) {
+            return pair.first();
         }
-        String requestTcpSeed = json.findPath("seed").asText();
-        if (Authentication.isAuthorizedSeed(appConf, requestTcpSeed)) {
-            JsonNode moods = json.findPath("moods");
-            for (JsonNode moodNode : moods) {
-                MoodEntry mood = new MoodEntry(
-                        moodNode.findPath("timestamp").asLong(),
-                        moodNode.findPath("mood").asText()
-                );
-                try {
-                    canBeSaved = this.dbService.saveMood(mood);
-                } catch (ServiceUnavailableException serviceUnavailableException) {
-                    Logger.error(DBService.INFO_TEXT_DB_NOT_AVAILABLE);
-                    return internalServerError(DBService.INFO_TEXT_DB_NOT_AVAILABLE);
-                }
-                if (canBeSaved) {
-                    Logger.info("Inserted " + mood.toString());
-                } else {
-                    Logger.info("Failed to insert " + mood.toString());
-                    succeed = false;
-                    break; // break out the for loop, must not always be breakded out.
-                }
+        JsonNode bodyJson = pair.second();
+
+        /* execution block */
+        JsonNode moods = bodyJson.findPath("moods");
+        for (JsonNode moodNode : moods) {
+            MoodEntry mood = new MoodEntry(
+                    moodNode.findPath("timestamp").asLong(),
+                    moodNode.findPath("mood").asText()
+            );
+            try {
+                canBeSaved = this.dbService.saveMood(mood);
+            } catch (ServiceUnavailableException serviceUnavailableException) {
+                Logger.error(DBService.INFO_TEXT_DB_NOT_AVAILABLE);
+                return internalServerError(DBService.INFO_TEXT_DB_NOT_AVAILABLE);
             }
-        } else {
-            return unauthorized("Unauthorized seed");
+            if (canBeSaved) {
+                Logger.info("Inserted " + mood.toString());
+            } else {
+                Logger.info("Failed to insert " + mood.toString());
+                succeed = false;
+                break; // break out the for loop, must not always be breakded out.
+            }
         }
+
         if (succeed) {
             // run a async task
             runAsyncTask();
@@ -116,14 +128,14 @@ public class MoodController extends Controller {
      * @return http result
      */
     public Result getAllMoods(Http.Request request) {
-        Logger.info("Get all Moods on " + TimeUtil.getDateStr(new Date()));
+        Logger.info("Get all Moods on " + TimeUtil.getDateTimeStr(new Date()));
         // parse the body
         JsonNode json = request.body().asJson();
         if (json == null) {
-            return badRequest("Expecting Json data");
+            return badRequest(ResultKeys.BadRequestKeys.ExpectingJsonDataKey);
         }
         String requestTcpSeed = json.findPath("seed").asText();
-        if (Authentication.isAuthorizedSeed(appConf, requestTcpSeed)) {
+        if (Authentication.isAuthorizedSeed(appConfig, requestTcpSeed)) {
             // fetch data from db and get the db cursor
             try {
                 MongoCursor<MoodObject> cursor = this.dbService.findAllMoods();

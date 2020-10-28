@@ -3,6 +3,8 @@ package tasks;
 import play.Logger;
 import services.DBService;
 
+// JSR330 DI
+// https://github.com/google/guice/wiki/JSR330
 import javax.inject.Inject;
 import javax.inject.Singleton;
 

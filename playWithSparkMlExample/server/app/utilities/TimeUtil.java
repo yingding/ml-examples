@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public final class TimeUtil {
     private static final Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    public static String getDateStr(Date date) {
+    public static String getDateTimeStr(Date date) {
         return formatter.format(date);
     }
 }

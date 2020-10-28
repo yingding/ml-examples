@@ -3,10 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import {PopupDialogComponent} from '../shared/dialog/popup-dialog/popup-dialog.component';
 import {Router} from '@angular/router';
 
+// https://stackoverflow.com/questions/34542143/load-external-css-style-into-angular-2-component
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.scss']
+  styleUrls: ['./welcome.component.scss'],
+  // encapsulation: ViewEncapsulation.None,
 })
 export class WelcomeComponent implements OnInit {
   title = 'WelcomeComponent';
