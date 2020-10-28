@@ -27,12 +27,13 @@ change to the workspace folder with `cd webClient`:
 * `ng generate interface shared/interface/DialogData` generates in src/app/shared/interface folder dialog-data.ts file
 * `ng generate component login --module=shared.module` to add and generate templates for the additional module: shared. By default `--module=app.module` is applied if none is given, since the app module is the commonly the single module available. For more details please see https://stackoverflow.com/questions/48102863/ng-generate-component-in-subdirectory 
 
-Create a submodule:
-
+Create a submodule (from webClient folder):
+* `cd webClient`, which is the Ng client root folder, in which `src/app/...` locates.
 * use `ng generate module private/private --module app --flat --routing` to generate the private-routing.module.ts and private.module.ts in src/app/private folder
 * use `ng generate component private/DashBoard --module private
 ` to generate a component for the module private in the folder private src/app/private/
 * use `ng generate component private/about --module private` to generate another component for the module private
+* or use `ng generate component private/MlExamples` to generate another component for the module private
 
 
 

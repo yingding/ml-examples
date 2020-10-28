@@ -18,11 +18,12 @@ import { BindingExamplesComponent } from './binding-examples/binding-examples.co
 import { BindingParentComponent } from './binding-examples/binding-parent/binding-parent.component';
 import { BindingChildComponent } from './binding-examples/binding-child/binding-child.component';
 import { InputsModule } from '../inputs/inputs.module';
+import { MlExamplesComponent } from './ml-examples/ml-examples.component';
 
 
 @NgModule({
   declarations: [
-    DashBoardComponent, AboutComponent, UserHomeComponent, BindingExamplesComponent, BindingParentComponent, BindingChildComponent
+    DashBoardComponent, AboutComponent, UserHomeComponent, BindingExamplesComponent, BindingParentComponent, BindingChildComponent, MlExamplesComponent
   ],
   imports: [
     CommonModule,

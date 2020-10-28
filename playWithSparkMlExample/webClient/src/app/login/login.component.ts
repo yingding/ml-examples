@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       // passing the user name as data parameter to the UserHomeComponent
       this.router.navigate(['/home', {name: this.username}]);
     } else {
-      this.errorMessage = "Name or Password is empty!\nPlease type any string for the name and password!";
+      this.errorMessage = 'Name or Password is empty!\nPlease type any string for the name and password!';
       // break line with css as exception to inline-block
     }
   }

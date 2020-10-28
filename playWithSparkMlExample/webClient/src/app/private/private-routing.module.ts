@@ -5,6 +5,7 @@ import {AboutComponent} from './about/about.component';
 import {UserHomeComponent} from './user-home/user-home.component';
 import {BindingExamplesComponent} from './binding-examples/binding-examples.component';
 import {InputRootComponent} from '../inputs/input-root/input-root.component';
+import {MlExamplesComponent} from './ml-examples/ml-examples.component';
 
 const privateRoutes: Routes = [
   {
@@ -16,6 +17,7 @@ const privateRoutes: Routes = [
       {path: 'dashboard', component: DashBoardComponent},
       {path: 'bindingexamples', component: BindingExamplesComponent},
       {path: 'inputsexamples', component: InputRootComponent},
+      {path: 'mlexamples', component: MlExamplesComponent},
       {path: 'about', component: AboutComponent}
       ]
   }

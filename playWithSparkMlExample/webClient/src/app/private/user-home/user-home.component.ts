@@ -7,6 +7,10 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './user-home.component.html',
   styleUrls: ['./user-home.component.scss']
 })
+
+/**
+ * UserHomeComponent host the router-outlet between dashboard, and the other contents after user login
+ */
 export class UserHomeComponent implements OnInit {
   username: string;
 
@@ -24,8 +28,10 @@ export class UserHomeComponent implements OnInit {
   }
 
   logout(): void {
-    this.router.navigate(["/welcome"]);
+    this.router.navigate(['/welcome']);
     // this.router.navigate(["/welcome"], {relativeTo: this.route});
-    // the use of relativeTo sees not necessary any more in contrary to what is stated in the reference: https://stackoverflow.com/questions/37196882/how-do-i-navigate-to-a-parent-route-from-a-child-route
+    // the use of relativeTo sees not necessary any more in contrary to
+    // what is stated in the reference:
+    // https://stackoverflow.com/questions/37196882/how-do-i-navigate-to-a-parent-route-from-a-child-route
   }
 }
