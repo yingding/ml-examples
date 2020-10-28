@@ -1,8 +1,6 @@
-package Models;
+package objectmodels;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.sql.Time;
 
 /**
  * @author Yingding Wang on 07.05.17.

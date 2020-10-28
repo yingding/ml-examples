@@ -1,6 +1,6 @@
 package daemons;
 
-import Utilities.TimeUtil;
+import utilities.TimeUtil;
 import akka.actor.ActorSystem;
 import com.typesafe.config.Config;
 import play.Logger;

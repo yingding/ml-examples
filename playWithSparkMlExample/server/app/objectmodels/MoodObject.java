@@ -1,4 +1,4 @@
-package Models;
+package objectmodels;
 
 /**
  * @author Yingding Wang on 07.05.17.

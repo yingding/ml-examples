@@ -1,7 +1,7 @@
 package services;
 
-import Models.MoodEntry;
-import Models.MoodObject;
+import objectmodels.MoodEntry;
+import objectmodels.MoodObject;
 import com.mongodb.DBObject;
 import com.mongodb.LazyDBObject;
 import com.mongodb.MongoOptions;

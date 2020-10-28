@@ -1,9 +1,9 @@
 package controllers;
 
-import Models.MoodEntry;
-import Models.MoodObject;
-import Utilities.Authentication;
-import Utilities.TimeUtil;
+import objectmodels.MoodEntry;
+import objectmodels.MoodObject;
+import utilities.Authentication;
+import utilities.TimeUtil;
 import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
