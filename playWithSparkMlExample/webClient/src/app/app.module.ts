@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-// import { AppComponent } from './app.component';
+import { AppComponent } from './app.component';
 
 import { FormsModule} from '@angular/forms'; // FormsModule is needed for the two binding for the Form in AngularMaterial
 // material design
@@ -21,7 +21,7 @@ import { InputsModule } from './inputs/inputs.module';
 
 @NgModule({
   declarations: [
-    // AppComponent,
+    AppComponent,
     LoginComponent,
     WelcomeComponent,
     PopupDialogComponent,
@@ -48,7 +48,7 @@ import { InputsModule } from './inputs/inputs.module';
    * adding dynamically created components to entryComponents:
    * https://stackoverflow.com/questions/41519481/angular2-material-dialog-has-issues-did-you-add-it-to-ngmodule-entrycomponent
    */
-
-  bootstrap: [WelcomeComponent]
+  /* AppComponent provides a router with empty content, is used to switch between welcomeComponent and login component */
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
