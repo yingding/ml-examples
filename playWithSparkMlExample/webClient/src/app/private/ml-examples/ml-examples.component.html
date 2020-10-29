@@ -1,3 +1,8 @@
 <div class="leftMargined topMargined">
   <p>ml-examples works!</p>
+  <div>
+    {{ sparkInfo | json }}
+  </div>
+  <!-- print out status of backend availability -->
+  <span *ngIf="errorText!=null" [style.background-color]="errorTextColor">{{errorText}}</span>
 </div>

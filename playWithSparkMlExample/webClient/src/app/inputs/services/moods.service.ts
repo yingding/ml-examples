@@ -6,10 +6,12 @@ import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {MoodModel} from '../models/mood-model';
 
+@Injectable({
+    providedIn: 'root'
+})
 // @Injectable({
-//    providedIn: InputsModule
+//   providedIn: 'any'
 // })
-@Injectable()
 export class MoodsService {
   private API_URL_GET = 'api/moods/get/';
   private API_URL_POST = 'api/moods/post/';

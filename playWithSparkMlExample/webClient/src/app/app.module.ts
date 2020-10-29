@@ -18,6 +18,7 @@ import { PopupDialogComponent } from './shared/dialog/popup-dialog/popup-dialog.
 import { PrivateModule } from './private/private.module';
 import { PageNotFoundComponent } from './shared/component/page-not-found/page-not-found.component';
 import { InputsModule } from './inputs/inputs.module';
+import { ApiModule } from './api/api.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { InputsModule } from './inputs/inputs.module';
     PageNotFoundComponent,
   ],
   imports: [
+    ApiModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,

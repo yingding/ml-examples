@@ -33,6 +33,8 @@ POST    /api/moods/post/         controllers.MoodController.saveMoodInput(reques
 # +nocsrf
 POST    /api/moods/get/          controllers.MoodController.getAllMoods(request: Request)
 
+POST    /api/sparkinfo/get/      controllers.MLController.getMLInfos(request: Request)
+
 # redirect every thing unknown to / index, since the Application.index only redirect to /
 GET /*data  controllers.Application.index(data)
 

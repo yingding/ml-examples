@@ -1,4 +1,4 @@
-# 1. Introduction of this Angular7 seed in Linux and Macosx
+# 1. Introduction of this Angular10 seed in Linux and Macosx
 * change to the simpleClient directory with `cd webClient`
 * Install the local node_modules directory with `npm install`
 * Run ng application in dev mode with `npm start`
@@ -17,7 +17,7 @@ Use proxy settings to access local or remote service with Webpack Dev Server
 
 ## 1.2 About this project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.3.
 
 # 2. Introduction of Angular-cli
 change to the workspace folder with `cd webClient`:
@@ -35,7 +35,10 @@ Create a submodule (from webClient folder):
 * use `ng generate component private/about --module private` to generate another component for the module private
 * or use `ng generate component private/MlExamples` to generate another component for the module private
 
+Create a submodule `api` to handle communication with Backend
 
+* use `ng generate module api/api --module app --flat` to generate the `api.module.ts` file in folder `src/app/api/`, `--flat` option means the file will not be created in an extra `api` folder, since the `api/` prefix is already given. This commend is the same as `ng generate module api --module app`which generates the `src/app/api/api.module.ts` file.
+* use `ng generate service api/SparkInfo --flat=true` to generate a `spark-info.service.ts` file in folder `src/app/api/`, and this service must be provided in the `api` module manually.
 
 ## 2.1 Development server
 
