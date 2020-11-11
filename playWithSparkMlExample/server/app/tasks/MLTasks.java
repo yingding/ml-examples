@@ -1,10 +1,8 @@
 package tasks;
 
-import com.typesafe.config.Config;
 import configs.SparkConfig;
 import controllers.idl.SparkInfo;
 import play.Logger;
-import services.AppConfigService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,10 +23,10 @@ public class MLTasks {
     }
 
     public void execSpark() {
+        // execute word counting example
+
         Logger.info("spark task is {}active!", sparkConfig.isActivated() ? "": "NOT ");
     }
-
-
 
 
 }
