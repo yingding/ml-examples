@@ -62,7 +62,7 @@ dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-databind" % "2.11
 dependencyOverrides += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.11.2"
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "3.0.1",
-  "org.apache.spark" %% "spark-sql" % "3.0.1",
+  "org.apache.spark" %% "spark-sql" % "3.0.1", // Dataset<Row> aka DataFrame:df
   "org.apache.spark" %% "spark-mllib" % "3.0.1" % "runtime",
   "org.apache.spark" %% "spark-streaming" % "3.0.1" % "provided",
   "org.mongodb.spark" %% "mongo-spark-connector" % "3.0.0"
