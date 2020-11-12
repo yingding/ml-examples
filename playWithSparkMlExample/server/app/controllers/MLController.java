@@ -49,8 +49,8 @@ public class MLController {
         /* execution block */
         // https://www.playframework.com/documentation/2.8.x/JavaJsonActions
         SparkInfo sparkInfo = mlTasks.getSparkInfo();
-        mlTasks.execSparkTasks();
-        // runAsyncMLTasks();
+        // mlTasks.execSparkTasks();
+        runAsyncMLTasks();
         return ok(Json.toJson(sparkInfo));
     }
 

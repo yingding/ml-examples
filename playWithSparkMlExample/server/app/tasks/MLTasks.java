@@ -35,8 +35,7 @@ public class MLTasks {
         WordCountExample wordCountExample = new WordCountExample();
         Logger.info("Begin counting words...");
         long count = wordCountExample.getCount();
-        Logger.info("count: ", count);
+        Logger.info("count: {}", count);
     }
-
 
 }

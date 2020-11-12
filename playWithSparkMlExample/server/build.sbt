@@ -7,7 +7,13 @@ version := "1.0.0"
 // module id in guice
 lazy val `server` = (project in file(".")).enablePlugins(PlayJava)
 
-scalaVersion := "2.12.12" // spark 3.0.1 binary is compile with 2.12.10
+/* Warning: while using 2.12.12, spark 3.0.1 executor raised exception:
+ * WARN TransportChannelHandler: Exception in connection from /172.20.0.1:7078
+ * java.io.InvalidClassException: scala.collection.mutable.WrappedArray$ofRef;
+ * local class incompatible: stream classdesc serialVersionUID
+ */
+scalaVersion := "2.12.10" // spark 3.0.1 binary is compile with 2.12.10
+
 // scalaVersion := "2.13.2"
 // play jongo, spark doesn't work with 2.13.x jet, they are still compiled with 2.12.x
 
