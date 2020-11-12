@@ -17,7 +17,7 @@ scalaVersion := "2.12.10" // spark 3.0.1 binary is compile with 2.12.10
 // scalaVersion := "2.13.2"
 // play jongo, spark doesn't work with 2.13.x jet, they are still compiled with 2.12.x
 
-libraryDependencies += "com.typesafe.play" %% "play" % "2.8.2" // "2.7.3"
+libraryDependencies += "com.typesafe.play" %% "play" % "2.8.5" // "2.7.3"
 // the Json.toJson uses play-json
 libraryDependencies += "com.typesafe.play" %% "play-json" % "2.9.1" // "2.7.4"
 // libraryDependencies += "com.typesafe.play" %% "play-iteratees" % "2.6.1"
