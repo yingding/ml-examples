@@ -6,8 +6,8 @@ import play.Logger;
 import services.AppConfigService;
 import javax.inject.Inject;
 
-public class SparkConfig {
-    private static final String TAG = SparkConfig.class.getSimpleName();
+public class CustomSparkConfig {
+    private static final String TAG = CustomSparkConfig.class.getSimpleName();
     private final Config appConf;
     private boolean isActivated;
 
@@ -18,7 +18,7 @@ public class SparkConfig {
 
     /* Construction */
     @Inject
-    public SparkConfig(AppConfigService appConfigService) {
+    public CustomSparkConfig(AppConfigService appConfigService) {
         this.appConf = appConfigService.getConfig();
         init();
     }

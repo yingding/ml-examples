@@ -36,11 +36,15 @@ libraryDependencies ++= Seq(
 // libraryDependencies += "org.jongo" % "jongo" % "1.4.1"
 
 // for the mongo db 3.4.x version,// "org.jongo" % "jongo" % "1.3.1",
+// https://stackoverflow.com/questions/50924923/play-framework-2-6-conflicting-loggers-when-using-modules/50962359#50962359
+// "3.6.4",
 libraryDependencies ++= Seq(
-  "org.mongodb" % "mongo-java-driver" % "3.6.4",
+  "org.mongodb" % "mongo-java-driver" % "3.12.7",
   "org.jongo" % "jongo" % "1.4.1",
-  "uk.co.panaxiom" %% "play-jongo" % "2.1.0-jongo1.3"
+  "uk.co.panaxiom" %% "play-jongo" % "2.1.0-jongo1.3" exclude("com.typesafe.play", "play-logback")
 )
+
+// dependencyOverrides +=
 // got a guice error with jongo 1.4.1 not 1.4.0
 
 // for morphia with play 2.8.x
@@ -71,7 +75,8 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-sql" % "3.0.1", // Dataset<Row> aka DataFrame:df
   "org.apache.spark" %% "spark-mllib" % "3.0.1" % "runtime",
   "org.apache.spark" %% "spark-streaming" % "3.0.1" % "provided",
-  "org.mongodb.spark" %% "mongo-spark-connector" % "3.0.0"
+  "org.mongodb.spark" %% "mongo-spark-connector" % "3.0.0" // exclude ("org.mongodb", "mongo-java-driver"),
+  // "org.mongodb" % "mongodb-driver-sync" % "4.1.1"
 )
 // mongo spark connect 3 for spark 3.0.x to load mongo with spark with scala 2.12
 

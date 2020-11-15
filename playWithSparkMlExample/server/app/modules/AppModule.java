@@ -1,6 +1,7 @@
 package modules;
 
 import com.google.inject.AbstractModule;
+import configs.SparkMongoConfig;
 import play.Environment;
 // import play.Configuration;
 import com.typesafe.config.Config;
@@ -44,6 +45,7 @@ public class AppModule extends AbstractModule implements AkkaGuiceSupport {
         bind(AppConfigService.class).asEagerSingleton();
         // Ask Guice to create an instance of AppMongoClientFactory when the application starts
         bind(DaemonService.class).asEagerSingleton();
+        bind(SparkMongoConfig.class).asEagerSingleton();
 
     }
 }
