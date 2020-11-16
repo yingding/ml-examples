@@ -2,9 +2,10 @@ name := """server"""
 organization := "com.example"
 version := "1.0.0"
 
-// Warning:
-// the name and the lazy val `server` shall be the same otherwise play2 app config can not launch the play app
-// module id in guice
+/* Warning:
+ * the name and the lazy val `server` shall be the same otherwise play2 app config
+ * can not launch the play app module id in guice
+ */
 lazy val `server` = (project in file(".")).enablePlugins(PlayJava)
 
 /* Warning: while using 2.12.12, spark 3.0.1 executor raised exception:
@@ -14,9 +15,9 @@ lazy val `server` = (project in file(".")).enablePlugins(PlayJava)
  */
 scalaVersion := "2.12.10" // spark 3.0.1 binary is compile with 2.12.10
 
-// scalaVersion := "2.13.2"
-// play jongo, spark doesn't work with 2.13.x jet, they are still compiled with 2.12.x
-
+/* scalaVersion := "2.13.2"
+ * play jongo, spark doesn't work with 2.13.x jet, they are still compiled with 2.12.x
+ */
 libraryDependencies += "com.typesafe.play" %% "play" % "2.8.5" // "2.7.3"
 // the Json.toJson uses play-json
 libraryDependencies += "com.typesafe.play" %% "play-json" % "2.9.1" // "2.7.4"
@@ -70,6 +71,9 @@ libraryDependencies ++= Seq(
 dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-core" % "2.11.2"
 dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-databind" % "2.11.2"
 dependencyOverrides += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.11.2"
+
+// https://stackoverflow.com/questions/34784174/sbt-to-download-list-of-jars-specified
+// use sbt-pack plugin: https://github.com/xerial/sbt-pack
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "3.0.1",
   "org.apache.spark" %% "spark-sql" % "3.0.1", // Dataset<Row> aka DataFrame:df
@@ -79,6 +83,8 @@ libraryDependencies ++= Seq(
   // "org.mongodb" % "mongodb-driver-sync" % "4.1.1"
 )
 // mongo spark connect 3 for spark 3.0.x to load mongo with spark with scala 2.12
+// https://www.mongodb.com/blog/post/tutorial-for-operationalizing-spark-with-mongodb
+// https://www.mongodb.com/blog/post/the-new-mongodb-connector-for-apache-spark-in-action-building-a-movie-recommendation-engine
 
 // Issue with the Logging
 // https://www.playframework.com/documentation/2.8.x/SettingsLogger

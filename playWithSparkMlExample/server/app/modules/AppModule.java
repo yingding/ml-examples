@@ -45,7 +45,7 @@ public class AppModule extends AbstractModule implements AkkaGuiceSupport {
         bind(AppConfigService.class).asEagerSingleton();
         // Ask Guice to create an instance of AppMongoClientFactory when the application starts
         bind(DaemonService.class).asEagerSingleton();
-        bind(SparkMongoConfig.class).asEagerSingleton();
+        // bind(SparkMongoConfig.class).asEagerSingleton();
 
     }
 }

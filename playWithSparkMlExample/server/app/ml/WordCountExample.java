@@ -35,7 +35,7 @@ public class WordCountExample {
         SparkConf sparkConf = new SparkConf();
         sparkConf.set("spark.driver.memory", "1G"); // setting driver
         sparkConf.set("spark.driver.cores", "1");
-        sparkConf.set("spark.driver.port", "7079"); // tell how worker can call back to driver
+        sparkConf.set("spark.driver.port", "7078"); // tell how worker can call back to driver
         /* set spark.driver.host, so that the spark container can call the driver host
          * since spark container runs in a bridge network call the gate way IP to connect to driver port
          * Find out gateway: "docker network inspect docker_spark-net",
@@ -62,36 +62,39 @@ public class WordCountExample {
         sparkConf.set("spark.executor.cores", "1");
         sparkConf.set("spark.num.executors", "2");
         sparkConf.set("spark.default.parallelism", "2");
+        sparkConf.set("spark.submit.deployMode","client"); // submitter launches the driver outside of the cluster
+        // sparkConf.set("spark.submit.deployMode","cluster"); // use deploy mode cluster
+        // client https://spark.apache.org/docs/latest/cluster-overview.html
 
         return sparkConf;
-//                SparkSession
-//                .builder()
-//                .appName(sb.toString()) // name of the app
-//                .master("spark://localhost:7077") // spark-master will be resolved by DNS
-//                //.master("spark://spark-master:7077")
-//                .config(sparkConf);
-//                .config("spark.driver.memory", "1G")
-//                .config("spark.driver.cores", "1")
-//                .config("spark.driver.port", "7078")
-//                .config("spark.driver.host", "172.20.0.1")
-//                .config("spark.driver.bindAddress", "127.0.0.1")
-//                .config("spark.driver.blockManager.port", "10026")
-//                .config("spark.executor.memory", "2G")
-//                .config("spark.executor.cores", "2")
-//                .config("spark.num.executors", "2")
-//                .config("spark.default.parallelism", "2");
     }
 
     public SparkConf extendMongoConfig(SparkConf sparkConf) {
         String dbName = "mydb";
         String inputCollection = "moods";
         String outputCollection = "moods";
-        // sparkConf.set("repositories", "");
-        sparkConf.set("spark.jars.packages", sparkMongoConfig.getJarsPackages());
+        /* Config: https://spark.apache.org/docs/latest/configuration.html
+         * Advanced Dependency Mgmt: https://spark.apache.org/docs/latest/submitting-applications.html#advanced-dependency-management
+         */
+        /* sparkConf.set("spark.jars.repositories", "");
+         * sparkConf.set("spark.jars.packages", sparkMongoConfig.getJarsPackages());
+         * Deprecated:
+         * https://stackoverflow.com/questions/62106554/why-does-spark-submit-ignore-the-package-that-i-include-as-part-of-the-configura
+         * https://stackoverflow.com/questions/35762459/add-jar-to-standalone-pyspark
+         */
+        // sparkConf.set("spark.jars.repositories", "https://mvnrepository.com/");
+        // sparkConf.set("spark.jars.packages", "org.mongodb.spark:mongo-spark-connector_2.12:3.0.0");
+        sparkConf.set("spark.executor.extraClassPath","/spark/extra/target/");
         sparkConf.set("spark.mongodb.input.uri", genMongoURI(dbName, inputCollection));
         sparkConf.set("spark.mongodb.output.uri", genMongoURI(dbName, outputCollection));
         sparkConf.set("spark.mongodb.input.partitionerOptions", "MongoSamplePartitioner");
         sparkConf.set("spark.mongodb.input.partitionerOptions.partitionKey", "_id.timestamp");
+        return sparkConf;
+    }
+
+    public SparkConf extendMongoConfig2(SparkConf sparkConf) {
+        sparkConf.set("spark.mongodb.input.uri", genMongoURI("mydb","myCollection"));
+        sparkConf.set("spark.mongodb.output.uri", genMongoURI("mydb","myCollection"));
         return sparkConf;
     }
 
@@ -114,8 +117,9 @@ public class WordCountExample {
                 .appName(sb.toString()) // name of the app
                 .master("spark://localhost:7077") // spark-master will be resolved by DNS
                 //.master("spark://spark-master:7077")
-                // .config(extendMongoConfig(getSparkConf()))
-                .config(getSparkConf())
+                .config(extendMongoConfig(getSparkConf()))
+                //.config(extendMongoConfig2(getSparkConf()))
+                // .config(getSparkConf())
                 .getOrCreate();
     }
 
@@ -146,6 +150,22 @@ public class WordCountExample {
 
     }
 
+    public long getCount2() {
+        /* Open SparkSession and SparkContext */
+        SparkSession spark = getSparkSession(TAG_BUILDER);
+
+        JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
+        JavaMongoRDD<Document> rdd = MongoSpark.load(jsc);
+        long count = -1;
+        count = rdd.count();
+
+        // close JavaSparkContext
+        jsc.close();
+        // SparkSession RPC
+        spark.stop();
+        return count;
+    }
+
     public long getCount() {
         /* Open SparkSession and SparkContext */
         SparkSession spark = getSparkSession(TAG_BUILDER);
@@ -168,6 +188,7 @@ public class WordCountExample {
         // JavaMongoRDD<Document> rdd = MongoSpark.load(jsc, readConfig);
         long myCount = 0;
         try {
+            // https://stackoverflow.com/questions/59320324/classnotfoundexception-com-mongodb-spark-rdd-partitioner-mongopartition
             JavaMongoRDD<Document> rdd = MongoSpark.load(jsc, readConfig);
             if (rdd != null && !rdd.isEmpty()) {
                 myCount = rdd.count();

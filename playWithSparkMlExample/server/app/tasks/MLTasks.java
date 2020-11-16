@@ -37,8 +37,9 @@ public class MLTasks {
     private void execWordCountExample() {
         WordCountExample wordCountExample = new WordCountExample(sparkMongoConfig);
         Logger.info("Begin counting words...");
-        // long count = wordCountExample.getCount();
-        long count = wordCountExample.getSimpleNumberCount();
+        // long count = wordCountExample.getCount2();
+        long count = wordCountExample.getCount();
+        // long count = wordCountExample.getSimpleNumberCount();
         Logger.info("count: {}", count);
     }
 
