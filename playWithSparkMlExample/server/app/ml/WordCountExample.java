@@ -3,6 +3,7 @@ package ml;
 import com.mongodb.spark.MongoSpark;
 import com.mongodb.spark.config.ReadConfig;
 import com.mongodb.spark.rdd.api.java.JavaMongoRDD;
+import configs.SparkDriverConfig;
 import configs.SparkMongoConfig;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -19,13 +20,15 @@ public class WordCountExample {
     public static final String TAG = WordCountExample.class.getSimpleName();
     public static final StringBuilder TAG_BUILDER = new StringBuilder(TAG);
     private SparkMongoConfig sparkMongoConfig;
+    private SparkDriverConfig sparkDriverConfig;
 
-    public WordCountExample(SparkMongoConfig sparkMongoConfig) {
+    public WordCountExample(SparkMongoConfig sparkMongoConfig, SparkDriverConfig sparkDriverConfig) {
         this.sparkMongoConfig = sparkMongoConfig;
+        this.sparkDriverConfig = sparkDriverConfig;
     }
 
     // TODO: convert this static method to a Singleton?
-    public static SparkConf getSparkConf() {
+    public SparkConf getSparkConf() {
         /* Spark Shell config example
          * Reference: https://spark.apache.org/docs/latest/
          * spark-shell --conf spark.executor.memory=1G --conf spark.executor.cores=1 --master spark://spark-master:7077
@@ -35,7 +38,7 @@ public class WordCountExample {
         SparkConf sparkConf = new SparkConf();
         sparkConf.set("spark.driver.memory", "1G"); // setting driver
         sparkConf.set("spark.driver.cores", "1");
-        sparkConf.set("spark.driver.port", "7078"); // tell how worker can call back to driver
+        sparkConf.set("spark.driver.port", sparkDriverConfig.getDriverPort()); // tell how worker can call back to driver
         /* set spark.driver.host, so that the spark container can call the driver host
          * since spark container runs in a bridge network call the gate way IP to connect to driver port
          * Find out gateway: "docker network inspect docker_spark-net",
@@ -46,24 +49,27 @@ public class WordCountExample {
          * On Linux use gateway ip: e.g. sparkConf.set("spark.driver.host", "172.18.0.1");
          * starting from 20.04 Linux need to add a --add-host flag to allow "host.docker.internal"
          */
+        sparkConf.set("spark.driver.host", sparkDriverConfig.getDriverHost());
         // for linux
         // sparkConf.set("spark.driver.host", "172.18.0.1"); // gateway of the custom docker bridge network of spark cluster
         // for mac/windows the gateway
-        sparkConf.set("spark.driver.host", "host.docker.internal");
+        // sparkConf.set("spark.driver.host", "host.docker.internal");
         // sparkConf.set("spark.blockManager.port", "10025") ?
         /* use spark.driver.bindAddress to set SPARK_LOCAL_IP
          * Refernce:
          * https://stackoverflow.com/questions/38429333/spark-submit-service-driver-could-not-bind-on-port-error/43235659#43235659
          */
         // sparkConf.set("spark.driver.bindAddress", "0.0.0.0"); // use en10 ip // 127.0.0.1 will resolve to my local interface en10
-        sparkConf.set("spark.driver.bindAddress", "127.0.0.1"); // use en10 ip // 127.0.0.1 will resolve to my local interface en10
-        sparkConf.set("spark.driver.blockManager.port", "10026"); // blockManager will be used to fetch the data from driver
+        // sparkConf.set("spark.driver.bindAddress", "127.0.0.1"); // use en10 ip // 127.0.0.1 will resolve to my local interface en10
+        sparkConf.set("spark.driver.bindAddress", sparkDriverConfig.getDriverBindAddress());
+        sparkConf.set("spark.driver.blockManager.port", sparkDriverConfig.getDriverBlockManagerPort());
+        // sparkConf.set("spark.driver.blockManager.port", "10026"); // blockManager will be used to fetch the data from driver
         sparkConf.set("spark.executor.memory", "1G"); // setting executor
         sparkConf.set("spark.executor.cores", "1");
-        sparkConf.set("spark.num.executors", "2");
-        sparkConf.set("spark.default.parallelism", "2");
-        sparkConf.set("spark.submit.deployMode","client"); // submitter launches the driver outside of the cluster
-        // sparkConf.set("spark.submit.deployMode","cluster"); // use deploy mode cluster
+        sparkConf.set("spark.num.executors", "1");
+        sparkConf.set("spark.default.parallelism", "1");
+        // sparkConf.set("spark.submit.deployMode","client"); // submitter launches the driver outside of the cluster
+        sparkConf.set("spark.submit.deployMode","cluster"); // use deploy mode cluster
         // client https://spark.apache.org/docs/latest/cluster-overview.html
 
         return sparkConf;
@@ -84,26 +90,33 @@ public class WordCountExample {
          */
         // sparkConf.set("spark.jars.repositories", "https://mvnrepository.com/");
         // sparkConf.set("spark.jars.packages", "org.mongodb.spark:mongo-spark-connector_2.12:3.0.0");
-        sparkConf.set("spark.executor.extraClassPath","/spark/extra/target/");
+        // sparkConf.set("spark.executor.extraClassPath","/spark/extra/target/");
         sparkConf.set("spark.mongodb.input.uri", genMongoURI(dbName, inputCollection));
-        sparkConf.set("spark.mongodb.output.uri", genMongoURI(dbName, outputCollection));
-        sparkConf.set("spark.mongodb.input.partitionerOptions", "MongoSamplePartitioner");
+        // sparkConf.set("spark.mongodb.output.uri", genMongoURI(dbName, outputCollection));
+        sparkConf.set("spark.mongodb.input.readPreference.name","primaryPreferred");
+        // sparkConf.set("spark.mongodb.input.partitionerOptions", "MongoSamplePartitioner");
+        sparkConf.set("spark.mongodb.input.partitionerOptions", "MongoPaginateByCountPartitioner");
         sparkConf.set("spark.mongodb.input.partitionerOptions.partitionKey", "_id.timestamp");
+        sparkConf.set("spark.mongodb.input.partitionerOptions.numberOfPartitions", "1");
         return sparkConf;
     }
 
-    public SparkConf extendMongoConfig2(SparkConf sparkConf) {
-        sparkConf.set("spark.mongodb.input.uri", genMongoURI("mydb","myCollection"));
-        sparkConf.set("spark.mongodb.output.uri", genMongoURI("mydb","myCollection"));
-        return sparkConf;
-    }
+//    public SparkConf extendMongoConfig2(SparkConf sparkConf) {
+//        sparkConf.set("spark.mongodb.input.uri", genMongoURI("mydb","myCollection"));
+//        sparkConf.set("spark.mongodb.output.uri", genMongoURI("mydb","myCollection"));
+//        return sparkConf;
+//    }
 
     private String genMongoURI(String dbName, String collection) {
         if (sparkMongoConfig != null) {
-            return  String.format("mongodb://%s:%s@%s:%s/%s.%s?authSource=%s",
+            return  String.format("mongodb://%s:%s@%s:%s/%s.%s?authSource=%s&connectTimeoutMS=600000",
                     sparkMongoConfig.getUser(), sparkMongoConfig.getPw(),
                     sparkMongoConfig.getHost(), sparkMongoConfig.getPort(),
                     dbName, collection, dbName);
+//            return  String.format("mongodb://%s:%s@%s:%s/%s.%s?ssl=true&connectTimeoutMS=60000",
+//                    sparkMongoConfig.getUser(), sparkMongoConfig.getPw(),
+//                    sparkMongoConfig.getHost(), sparkMongoConfig.getPort(),
+//                    dbName, collection);
         } else {
             return "";
         }
@@ -177,8 +190,10 @@ public class WordCountExample {
         Map<String, String> readOverrides = new HashMap<>();
         readOverrides.put("collection", "moods");
         readOverrides.put("database", "mydb");
-        readOverrides.put("partitionerOptions", "MongoSamplePartitioner");
+        // readOverrides.put("partitionerOptions", "MongoSamplePartitioner");
+        readOverrides.put("partitionerOptions", "MongoPaginateByCountPartitioner");
         readOverrides.put("partitionerOptions.partitionKey", "_id.timestamp");
+        readOverrides.put("partitionerOptions.numberOfPartitions", "1");
         // readOverrides.put("partitionerOptions.partitionKey", "_id.timestamp");
         // https://docs.mongodb.com/spark-connector/master/configuration#Input-configuration
         ReadConfig readConfig = ReadConfig.create(jsc).withOptions(readOverrides);

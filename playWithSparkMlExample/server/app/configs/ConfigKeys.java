@@ -12,4 +12,10 @@ final class ConfigKeys {
         static final String mongoPW = "spark.mongoPW";
         static final String jarsPackages = "spark.jarsPackages";
     }
+    static class SparkClusterConfigKeys {
+        static final String sparkDriverPort= "spark.driver.port";
+        static final String sparkDriverHost= "spark.driver.host";
+        static final String sparkDriverBindAddress = "spark.driver.bindAddress";
+        static final String sparkDriverBlockManagerPort= "spark.driver.blockManager.port";
+    }
 }

@@ -79,7 +79,7 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-sql" % "3.0.1", // Dataset<Row> aka DataFrame:df
   "org.apache.spark" %% "spark-mllib" % "3.0.1" % "runtime",
   "org.apache.spark" %% "spark-streaming" % "3.0.1" % "provided",
-  "org.mongodb.spark" %% "mongo-spark-connector" % "3.0.0" // exclude ("org.mongodb", "mongo-java-driver"),
+  "org.mongodb.spark" %% "mongo-spark-connector" % "3.0.0" exclude ("org.mongodb", "mongo-java-driver"),
   // "org.mongodb" % "mongodb-driver-sync" % "4.1.1"
 )
 // mongo spark connect 3 for spark 3.0.x to load mongo with spark with scala 2.12

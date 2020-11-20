@@ -1,6 +1,7 @@
 package tasks;
 
 import configs.CustomSparkConfig;
+import configs.SparkDriverConfig;
 import configs.SparkMongoConfig;
 import controllers.idl.SparkInfo;
 import ml.WordCountExample;
@@ -14,12 +15,14 @@ import javax.inject.Singleton;
 public class MLTasks {
     private static final String TAG = MLTasks.class.getSimpleName();
     private CustomSparkConfig customSparkConfig;
-    private SparkMongoConfig sparkMongoConfig;
+    private final SparkMongoConfig sparkMongoConfig;
+    private final SparkDriverConfig sparkDriverConfig;
 
     @Inject
-    public MLTasks(CustomSparkConfig customSparkConfig, SparkMongoConfig sparkMongoConfig) {
+    public MLTasks(CustomSparkConfig customSparkConfig, SparkMongoConfig sparkMongoConfig, SparkDriverConfig sparkDriverConfig) {
         this.customSparkConfig = customSparkConfig;
         this.sparkMongoConfig = sparkMongoConfig;
+        this.sparkDriverConfig = sparkDriverConfig;
     }
 
     public SparkInfo getSparkInfo() {
@@ -35,7 +38,7 @@ public class MLTasks {
     }
 
     private void execWordCountExample() {
-        WordCountExample wordCountExample = new WordCountExample(sparkMongoConfig);
+        WordCountExample wordCountExample = new WordCountExample(sparkMongoConfig, sparkDriverConfig);
         Logger.info("Begin counting words...");
         // long count = wordCountExample.getCount2();
         long count = wordCountExample.getCount();
