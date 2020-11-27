@@ -13,6 +13,7 @@ import org.apache.spark.sql.SparkSession;
 import org.bson.Document;
 import play.Logger;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class WordCountExample {
         sparkConf.set("spark.executor.memory", "1G"); // setting executor
         sparkConf.set("spark.executor.cores", "1");
         sparkConf.set("spark.num.executors", "1");
-        sparkConf.set("spark.default.parallelism", "1");
+        sparkConf.set("spark.default.parallelism", "2");
         // sparkConf.set("spark.submit.deployMode","client"); // submitter launches the driver outside of the cluster
         sparkConf.set("spark.submit.deployMode","cluster"); // use deploy mode cluster
         // client https://spark.apache.org/docs/latest/cluster-overview.html
@@ -153,6 +154,7 @@ public class WordCountExample {
         // make a DataFrame with column name number
         Dataset<Row> myRange =  spark.range(10000).toDF("number");
         Dataset<Row> dividedBy2 = myRange.where("number % 2 = 0");
+
         long myCount = dividedBy2.count();
 
         /* Close SparkSession and SparkContext */
@@ -207,11 +209,13 @@ public class WordCountExample {
             JavaMongoRDD<Document> rdd = MongoSpark.load(jsc, readConfig);
             if (rdd != null && !rdd.isEmpty()) {
                 myCount = rdd.count();
+                // show the DF content with column number which is visible in Apache log
+                Logger.info("WordCountExample: {}", Arrays.stream(rdd.toDF().take(10)));
             }
             /* Close SparkSession and SparkContext */
         } catch (NoSuchFieldError error) {
             error.printStackTrace();
-            Logger.error("WordCountExample {}", error.getMessage());
+            // Logger.error("WordCountExample {}", error.getMessage());
         }
         // close JavaSparkContext
         jsc.close();
