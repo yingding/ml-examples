@@ -110,10 +110,14 @@ public class WordCountExample {
 
     private String genMongoURI(String dbName, String collection) {
         if (sparkMongoConfig != null) {
-            return  String.format("mongodb://%s:%s@%s:%s/%s.%s?authSource=%s&connectTimeoutMS=600000",
+            String replsetStr="";
+            if (sparkMongoConfig.isReplicaSet()) {
+                replsetStr=String.format("replicaSet=%s&", sparkMongoConfig.getReplicaSetName());
+            }
+            return  String.format("mongodb://%s:%s@%s:%s/%s.%s?%sauthSource=%s&connectTimeoutMS=600000",
                     sparkMongoConfig.getUser(), sparkMongoConfig.getPw(),
                     sparkMongoConfig.getHost(), sparkMongoConfig.getPort(),
-                    dbName, collection, dbName);
+                    dbName, collection, replsetStr, dbName);
 //            return  String.format("mongodb://%s:%s@%s:%s/%s.%s?ssl=true&connectTimeoutMS=60000",
 //                    sparkMongoConfig.getUser(), sparkMongoConfig.getPw(),
 //                    sparkMongoConfig.getHost(), sparkMongoConfig.getPort(),
@@ -210,7 +214,7 @@ public class WordCountExample {
             if (rdd != null && !rdd.isEmpty()) {
                 myCount = rdd.count();
                 // show the DF content with column number which is visible in Apache log
-                Logger.info("WordCountExample: {}", Arrays.stream(rdd.toDF().take(10)));
+                // Logger.info("WordCountExample: {}", rdd.toDF().take(10));
             }
             /* Close SparkSession and SparkContext */
         } catch (NoSuchFieldError error) {

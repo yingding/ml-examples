@@ -10,6 +10,8 @@ final class ConfigKeys {
         static final String mongoPort = "spark.mongoPort";
         static final String mongoUser = "spark.mongoUser";
         static final String mongoPW = "spark.mongoPW";
+        static final String mongoIsReplicaSet = "spark.mongoIsReplicaSet";
+        static final String mongoReplicaSetName = "spark.monogReplicaSetName";
         static final String jarsPackages = "spark.jarsPackages";
     }
     static class SparkClusterConfigKeys {

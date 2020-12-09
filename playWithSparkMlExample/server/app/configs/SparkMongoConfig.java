@@ -16,6 +16,8 @@ public class SparkMongoConfig extends AbstractBaseConfig {
     private String port;
     private String user;
     private String pw;
+    private boolean isReplicaSet;
+    private String replicaSetName="";
     // private String jarsPackages;
 
     @Inject
@@ -31,6 +33,10 @@ public class SparkMongoConfig extends AbstractBaseConfig {
                 port = config.getString(ConfigKeys.SparkMongoConfigKeys.mongoPort);
                 user = config.getString(ConfigKeys.SparkMongoConfigKeys.mongoUser);
                 pw = config.getString(ConfigKeys.SparkMongoConfigKeys.mongoPW);
+                isReplicaSet = config.getBoolean(ConfigKeys.SparkMongoConfigKeys.mongoIsReplicaSet);
+                if (isReplicaSet) {
+                    replicaSetName = config.getString(ConfigKeys.SparkMongoConfigKeys.mongoReplicaSetName);
+                }
                 // jarsPackages = config.getString(ConfigKeys.SparkMongoConfigKeys.jarsPackages);
             } catch (ConfigException.Missing e) {
                 Logger.error("{} config key doesn't exist! \n{}", TAG, e.getMessage() == null ? "": e.getMessage());
@@ -50,6 +56,7 @@ public class SparkMongoConfig extends AbstractBaseConfig {
         port = "27017";
         user = "";
         pw = "";
+        isReplicaSet = false;
         // jarsPackages = "";
     }
 
@@ -69,7 +76,15 @@ public class SparkMongoConfig extends AbstractBaseConfig {
         return pw;
     }
 
-//    public String getJarsPackages() {
+    public boolean isReplicaSet() {
+        return isReplicaSet;
+    }
+
+    public String getReplicaSetName() {
+        return replicaSetName;
+    }
+
+    //    public String getJarsPackages() {
 //        return jarsPackages;
 //    }
 }
